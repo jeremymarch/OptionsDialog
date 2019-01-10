@@ -40,9 +40,9 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					# maxwidth, maxheight = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
 					# maxwidth = maxwidth or self.defaults[0]
 					# maxheight = maxheight or self.defaults[1]
-					dialog.getControl("option1").getModel().State = False
-					dialog.getControl("option2").getModel().State = True
-					dialog.getControl("option3").getModel().State = False
+					dialog.getControl("PrecomposedOption").getModel().State = False
+					dialog.getControl("PrecomposedPUAOption").getModel().State = True
+					dialog.getControl("CombiningOption").getModel().State = False
 
 					# buttonlistener = ButtonListener(dialog, self.defaults)  # ボタンリスナーをインスタンス化。
 					# addControl = controlCreator(self.ctx, self.smgr, dialog)  # オプションダイアログdialogにコントロールを追加する関数を取得。
