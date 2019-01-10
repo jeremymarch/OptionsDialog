@@ -11,4 +11,31 @@
 	dlg:closeable="true"
 	dlg:moveable="true"
 	dlg:withtitlebar="false">
+<dlg:bulletinboard>
+	<!--
+	<dlg:combobox dlg:id="UnicodeMode" dlg:left="8" dlg:top="63" dlg:width="158" dlg:height="51" dlg:help-text="Unicode Help">
+   <dlg:menupopup>
+    <dlg:menuitem dlg:value="Precomposed"/>
+    <dlg:menuitem dlg:value="Precomposed with PUA"/>
+    <dlg:menuitem dlg:value="Combining-Only"/>
+   </dlg:menupopup>
+  </dlg:combobox>
+-->
+
+<dlg:titledbox dlg:style-id="0" dlg:id="options" dlg:tab-index="6" dlg:left="6" dlg:top="20" dlg:width="90" dlg:height="50">
+<dlg:title dlg:value="Unicode Mode"/>
+</dlg:titledbox>
+
+   <dlg:radiogroup>
+   <dlg:radio dlg:style-id="0" dlg:id="option1" dlg:tab-index="1" dlg:left="10" dlg:top="25" dlg:width="232" dlg:height="21" dlg:value="Precomposed" dlg:multiline="true" dlg:valign="center">
+   </dlg:radio>
+   <dlg:radio dlg:style-id="0" dlg:id="option2" dlg:tab-index="2" dlg:left="10" dlg:top="37" dlg:width="232" dlg:height="21" dlg:value="Precomposed with PUA" dlg:multiline="true" dlg:valign="center">
+    
+   </dlg:radio>
+   <dlg:radio dlg:style-id="0" dlg:id="option3" dlg:tab-index="3" dlg:left="10" dlg:top="49" dlg:width="232" dlg:height="21" dlg:value="Combining-Only" dlg:multiline="true" dlg:valign="center">
+    
+   </dlg:radio>
+</dlg:radiogroup>
+
+</dlg:bulletinboard>
 </dlg:window>

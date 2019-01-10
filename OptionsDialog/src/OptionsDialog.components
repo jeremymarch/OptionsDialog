@@ -3,8 +3,8 @@
 	<component
 		loader="com.sun.star.loader.Python"
 		uri="optionsdialoghandler.py">
-		<implementation name="com.pq.blogspot.comp.ExtensionExample">
-			<service name="com.pq.blogspot.MaximumPaperSize" />
+		<implementation name="com.philolog.hoplitekb.LOExtension">
+			<service name="com.philolog.hoplitekb.Settings" />
 		</implementation>
 	</component>
 </components>

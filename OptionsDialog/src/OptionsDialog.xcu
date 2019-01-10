@@ -5,33 +5,23 @@
 	xmlns:oor="http://openoffice.org/2001/registry"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<node oor:name="Nodes">
-		<node
-			oor:name="com.pq.blogspot.comp.ExtensionExample.Node1"
-			oor:op="fuse">
-			<prop oor:name="Label">
-				<value xml:lang="en-US">Extensions Example</value>
-				<value xml:lang="ja-JP">拡張機能の例</value>
-			</prop>
-			<prop oor:name="AllModules">
-				<value>false</value>
-			</prop>
+		<node oor:name="Nodes">
+		<node oor:name="Writer" oor:op="fuse">
 			<node oor:name="Leaves">
 				<node
-					oor:name="com.pq.blogspot.comp.ExtensionExample"
+					oor:name="com.philolog.hoplitekb.LOExtension"
 					oor:op="fuse">
 					<prop oor:name="Label">
-						<value xml:lang="en-US">Maximum Paper Size</value>
-						<value xml:lang="ja-JP">最大用紙サイズ</value>
+						<value xml:lang="en-US">Hoplite Keyboard</value>
 					</prop>
 					<prop oor:name="OptionsPage">
 						<value>%origin%/dialogs/optionsdialog.xdl</value>
 					</prop>
 					<prop oor:name="Id">
-						<value>com.pq.blogspot.comp.ExtensionExample</value>
+						<value>com.philolog.hoplitekb.LOExtension</value>
 					</prop>
 					<prop oor:name="EventHandlerService">
-						<value>com.pq.blogspot.comp.ExtensionExample</value>
+						<value>com.philolog.hoplitekb.LOExtension</value>
 					</prop>
 				</node>
 			</node>
@@ -43,38 +33,9 @@
 			oor:op="fuse">
 			<node oor:name="Nodes">
 				<node
-					oor:name="com.pq.blogspot.comp.ExtensionExample.Node1"
+					oor:name="com.philolog.hoplitekb.LOExtension.Node1"
 					oor:op="fuse" />
 			</node>
-		</node>
-	</node>
-	<node oor:name="OptionsDialogGroups">
-		<node
-			oor:name="ProductName"
-			oor:op="fuse">
-			<node oor:name="Pages">
-				<node
-					oor:name="Security"
-					oor:op="fuse">
-					<prop oor:name="Hide">
-						<value>true</value>
-					</prop>
-				</node>
-				<node
-					oor:name="Memory"
-					oor:op="fuse">
-					<prop oor:name="Hide">
-						<value>true</value>
-					</prop>
-				</node>
-			</node>
-		</node>
-		<node
-			oor:name="Internet"
-			oor:op="fuse">
-			<prop oor:name="Hide">
-				<value>true</value>
-			</prop>
 		</node>
 	</node>
 </oor:component-data>

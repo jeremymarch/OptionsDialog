@@ -29,7 +29,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 	def __init__(self, ctx, *args):
 		self.ctx = ctx
 		self.smgr = ctx.getServiceManager()
-		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.pq.blogspot.comp.ExtensionExample.ExtensionData/Leaves/MaximumPaperSize")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
+		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.LOExtension.ExtensionData/Leaves/MaximumPaperSize")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
 		self.cfgnames = "Width", "Height"
 		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height")
 	# XContainerWindowEventHandler
@@ -37,20 +37,24 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 		if methodname==self.METHODNAME:  # Falseのときがありうる?
 			try:
 				if eventname=="initialize":  # オプションダイアログがアクティブになった時
-					maxwidth, maxheight = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
-					maxwidth = maxwidth or self.defaults[0]
-					maxheight = maxheight or self.defaults[1]
-					buttonlistener = ButtonListener(dialog, self.defaults)  # ボタンリスナーをインスタンス化。
-					addControl = controlCreator(self.ctx, self.smgr, dialog)  # オプションダイアログdialogにコントロールを追加する関数を取得。
-					addControl("FixedLine", {"PositionX": 5, "PositionY": 13, "Width": 250, "Height": 10, "Label": _("Maximum page size")})  # 文字付き水平線。
-					addControl("FixedText", {"PositionX": 11, "PositionY": 39, "Width": 49, "Height": 15, "Label": _("Width"), "NoLabel": True})  # 文字列。
-					addControl("NumericField", {"PositionX": 65, "PositionY": 39, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxwidth), "DecimalAccuracy": 2, "HelpText": _("Width")})  # 上下ボタン付き数字枠。小数点2桁、floatに変換して値を代入。
-					addControl("NumericField", {"PositionX": 65, "PositionY": 64, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxheight), "DecimalAccuracy": 2, "HelpText": _("Height")})  # 同上。
-					addControl("FixedText", {"PositionX": 11, "PositionY": 66, "Width": 49, "Height": 15, "Label": _("Height"), "NoLabel": True})  # 文字列。
-					addControl("FixedText", {"PositionX": 127, "PositionY": 42, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
-					addControl("FixedText", {"PositionX": 127, "PositionY": 68, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
-					addControl("Button", {"PositionX": 155, "PositionY": 39, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "width", "addActionListener": buttonlistener})  # ボタン。
-					addControl("Button", {"PositionX": 155, "PositionY": 64, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "height", "addActionListener": buttonlistener})  # ボタン。
+					# maxwidth, maxheight = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
+					# maxwidth = maxwidth or self.defaults[0]
+					# maxheight = maxheight or self.defaults[1]
+					dialog.getControl("option1").getModel().State = False
+					dialog.getControl("option2").getModel().State = True
+					dialog.getControl("option3").getModel().State = False
+
+					# buttonlistener = ButtonListener(dialog, self.defaults)  # ボタンリスナーをインスタンス化。
+					# addControl = controlCreator(self.ctx, self.smgr, dialog)  # オプションダイアログdialogにコントロールを追加する関数を取得。
+					# addControl("FixedLine", {"PositionX": 5, "PositionY": 13, "Width": 250, "Height": 10, "Label": _("Maximum page size")})  # 文字付き水平線。
+					# addControl("FixedText", {"PositionX": 11, "PositionY": 39, "Width": 49, "Height": 15, "Label": _("Width"), "NoLabel": True})  # 文字列。
+					# addControl("NumericField", {"PositionX": 65, "PositionY": 39, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxwidth), "DecimalAccuracy": 2, "HelpText": _("Width")})  # 上下ボタン付き数字枠。小数点2桁、floatに変換して値を代入。
+					# addControl("NumericField", {"PositionX": 65, "PositionY": 64, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxheight), "DecimalAccuracy": 2, "HelpText": _("Height")})  # 同上。
+					# addControl("FixedText", {"PositionX": 11, "PositionY": 66, "Width": 49, "Height": 15, "Label": _("Height"), "NoLabel": True})  # 文字列。
+					# addControl("FixedText", {"PositionX": 127, "PositionY": 42, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
+					# addControl("FixedText", {"PositionX": 127, "PositionY": 68, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
+					# addControl("Button", {"PositionX": 155, "PositionY": 39, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "width", "addActionListener": buttonlistener})  # ボタン。
+					# addControl("Button", {"PositionX": 155, "PositionY": 64, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "height", "addActionListener": buttonlistener})  # ボタン。
 				elif eventname=="ok":  # OKボタンが押された時
 					maxwidth = dialog.getControl("NumericField1").getModel().Value  # NumericFieldコントロールから値を取得。
 					maxheight = dialog.getControl("NumericField2").getModel().Value  # NumericFieldコントロールから値を取得。

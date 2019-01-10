@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <oor:component-schema
 	oor:name="ExtensionData"
-	oor:package="com.pq.blogspot.comp.ExtensionExample"
+	oor:package="com.philolog.hoplitekb.LOExtension"
 	xml:lang="en-US"
 	xmlns:oor="http://openoffice.org/2001/registry"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -17,6 +17,9 @@
 			<prop
 				oor:name="Height"
 				oor:type="xs:string" />
+			<prop
+				oor:name="UnicodeMode"
+				oor:type="xs:string" />
 			<group oor:name="Defaults">
 				<prop
 					oor:name="Width"
@@ -27,6 +30,11 @@
 					oor:name="Height"
 					oor:type="xs:string">
 					<value>300</value>
+				</prop>
+				<prop
+					oor:name="UnicodeMode"
+					oor:type="xs:string">
+					<value>Precomposed</value>
 				</prop>
 			</group>
 		</group>

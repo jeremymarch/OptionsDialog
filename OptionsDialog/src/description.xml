@@ -4,8 +4,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	<platform value="all" />
 	<display-name>
-		<name lang="en">Option Dialog Example</name>
-		<name lang="ja">オプションダイアログの例</name>
+		<name lang="en">Hoplite KB Settings</name>
 	</display-name>
 	<publisher>
 		<name lang="en" xlink:href="https://github.com/p--q/OptionsDialog">p--q</name>
@@ -15,17 +14,10 @@
 		<src lang="en" xlink:href="descriptions/description_en.txt" />
 		<src lang="ja" xlink:href="descriptions/description_ja.txt" />
 	</extension-description>
-	<identifier value="com.pq.blogspot.comp.ExtensionExample" />
+	<identifier value="com.philolog.hoplitekb.LOExtension" />
 	<icon>
 		<default xlink:href="icons/extension.png" />
 	</icon>
-	<registration>
-		<simple-license accept-by="admin" suppress-if-required="true"
-			suppress-on-update="true">
-			<license-text lang="en" xlink:href="LICENSE" />
-			<license-text lang="ja" xlink:href="LICENSE-ja" />
-		</simple-license>
-	</registration>
 	<dependencies>
 		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2"
 			value="5.2" />
