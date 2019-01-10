@@ -30,19 +30,29 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 		self.ctx = ctx
 		self.smgr = ctx.getServiceManager()
 		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.LOExtension.ExtensionData/Leaves/MaximumPaperSize")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
-		self.cfgnames = "Width", "Height"
-		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height")
+		self.cfgnames = "Width", "Height", "UnicodeMode"
+		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
 	# XContainerWindowEventHandler
 	def callHandlerMethod(self, dialog, eventname, methodname):  # ブーリアンを返す必要あり。dialogはUnoControlDialog。 eventnameは文字列initialize, ok, backのいずれか。methodnameは文字列external_event。
 		if methodname==self.METHODNAME:  # Falseのときがありうる?
 			try:
 				if eventname=="initialize":  # オプションダイアログがアクティブになった時
-					# maxwidth, maxheight = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
-					# maxwidth = maxwidth or self.defaults[0]
-					# maxheight = maxheight or self.defaults[1]
-					dialog.getControl("PrecomposedOption").getModel().State = False
-					dialog.getControl("PrecomposedPUAOption").getModel().State = True
-					dialog.getControl("CombiningOption").getModel().State = False
+					maxwidth, maxheight, umode = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
+					umode = umode or self.defaults[2]
+					maxwidth = maxwidth or self.defaults[0]
+					maxheight = maxheight or self.defaults[1]
+					if umode == "PrecomposedPUA":
+						dialog.getControl("PrecomposedOption").getModel().State = False
+						dialog.getControl("PrecomposedPUAOption").getModel().State = True
+						dialog.getControl("CombiningOption").getModel().State = False
+					elif umode == "CombiningOnly":
+						dialog.getControl("PrecomposedOption").getModel().State = False
+						dialog.getControl("PrecomposedPUAOption").getModel().State = False
+						dialog.getControl("CombiningOption").getModel().State = True
+					else:
+						dialog.getControl("PrecomposedOption").getModel().State = True
+						dialog.getControl("PrecomposedPUAOption").getModel().State = False
+						dialog.getControl("CombiningOption").getModel().State = False
 
 					# buttonlistener = ButtonListener(dialog, self.defaults)  # ボタンリスナーをインスタンス化。
 					# addControl = controlCreator(self.ctx, self.smgr, dialog)  # オプションダイアログdialogにコントロールを追加する関数を取得。
@@ -56,13 +66,35 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					# addControl("Button", {"PositionX": 155, "PositionY": 39, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "width", "addActionListener": buttonlistener})  # ボタン。
 					# addControl("Button", {"PositionX": 155, "PositionY": 64, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "height", "addActionListener": buttonlistener})  # ボタン。
 				elif eventname=="ok":  # OKボタンが押された時
-					maxwidth = dialog.getControl("NumericField1").getModel().Value  # NumericFieldコントロールから値を取得。
-					maxheight = dialog.getControl("NumericField2").getModel().Value  # NumericFieldコントロールから値を取得。
-					self.writeConfig(self.cfgnames, (str(maxwidth), str(maxheight)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
+					# maxwidth = dialog.getControl("NumericField1").getModel().Value  # NumericFieldコントロールから値を取得。
+					# maxheight = dialog.getControl("NumericField2").getModel().Value  # NumericFieldコントロールから値を取得。
+					if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
+						umode = "PrecomposedPUA"
+					elif dialog.getControl("CombiningOption").getModel().State == True:
+						umode = "CombiningOnly"
+					else:
+						umode = "Precomposed"
+
+					self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
 				elif eventname=="back":  # 元に戻すボタンが押された時
-					maxwidth, maxheight = self.readConfig(*self.cfgnames)
-					dialog.getControl("NumericField1").getModel().Value= float(maxwidth)  # コンポーネントデータノードの値を取得。
-					dialog.getControl("NumericField2").getModel().Value= float(maxheight)  # コンポーネントデータノードの値を取得。
+					maxwidth, maxheight, umode = self.readConfig(*self.cfgnames)
+					umode = umode or self.defaults[2]
+					maxwidth = maxwidth or self.defaults[0]
+					maxheight = maxheight or self.defaults[1]
+					if umode == "PrecomposedPUA":
+						dialog.getControl("PrecomposedOption").getModel().State = False
+						dialog.getControl("PrecomposedPUAOption").getModel().State = True
+						dialog.getControl("CombiningOption").getModel().State = False
+					elif umode == "CombiningOnly":
+						dialog.getControl("PrecomposedOption").getModel().State = False
+						dialog.getControl("PrecomposedPUAOption").getModel().State = False
+						dialog.getControl("CombiningOption").getModel().State = True
+					else:
+						dialog.getControl("PrecomposedOption").getModel().State = True
+						dialog.getControl("PrecomposedPUAOption").getModel().State = False
+						dialog.getControl("CombiningOption").getModel().State = False
+					# dialog.getControl("NumericField1").getModel().Value= float(maxwidth)  # コンポーネントデータノードの値を取得。
+					# dialog.getControl("NumericField2").getModel().Value= float(maxheight)  # コンポーネントデータノードの値を取得。
 			except:
 				traceback.print_exc()  # トレースバックはimport pydevd; pydevd.settrace(stdoutToServer=True, stderrToServer=True)でブレークして取得できるようになる。
 				return False
