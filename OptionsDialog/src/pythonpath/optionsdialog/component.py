@@ -1,28 +1,18 @@
 #!
 # -*- coding: utf-8 -*-
-import gettext
-import os
 import unohelper
 from com.sun.star.awt import XContainerWindowEventHandler
 from com.sun.star.lang import XServiceInfo
 from com.sun.star.awt import XActionListener
 from com.sun.star.beans import PropertyValue
 # from com.sun.star.awt.PosSize import POSSIZE  # ピクセル単位でコントロールの座標を指定するときにPosSizeキーの値に使う。
-import traceback
-def localization(ctx):  # 地域化。moファイルの切替。Linuxでは不要だがWindowsでは設定が必要。
-	global _
-	readConfig, dummy = createConfigAccessor(ctx, ctx.getServiceManager(), "/org.openoffice.Setup/L10N")  # LibreOfficeの言語設定へのパス。
-	lang = readConfig("ooLocale"),  # 現在のロケールを取得。タプルかリストで渡す。
-	lodir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "locale")  # このスクリプトと同じファルダにあるlocaleフォルダの絶対パスを取得。
-	mo = os.path.splitext(os.path.basename(__file__))[0]  # moファイル名。拡張子なし。このスクリプトファイルと同名と想定。
-	t = gettext.translation(mo, lodir, lang, fallback=True)  # Translations インスタンスを取得。moファイルがなくてもエラーはでない。
-	_ = t.gettext  # _にt.gettext関数を代入。
+#import traceback
+
 def create(ctx, *args, imple_name, service_name):
 	global IMPLE_NAME
 	global SERVICE_NAME
 	IMPLE_NAME = imple_name
 	SERVICE_NAME = service_name
-	localization(ctx)  # 地域化する。
 	return DilaogHandler(ctx, *args)
 class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):  # UNOコンポーネントにするクラス。
 	METHODNAME = "external_event"  # 変更できない。
@@ -54,20 +44,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 						dialog.getControl("PrecomposedPUAOption").getModel().State = False
 						dialog.getControl("CombiningOption").getModel().State = False
 
-					# buttonlistener = ButtonListener(dialog, self.defaults)  # ボタンリスナーをインスタンス化。
-					# addControl = controlCreator(self.ctx, self.smgr, dialog)  # オプションダイアログdialogにコントロールを追加する関数を取得。
-					# addControl("FixedLine", {"PositionX": 5, "PositionY": 13, "Width": 250, "Height": 10, "Label": _("Maximum page size")})  # 文字付き水平線。
-					# addControl("FixedText", {"PositionX": 11, "PositionY": 39, "Width": 49, "Height": 15, "Label": _("Width"), "NoLabel": True})  # 文字列。
-					# addControl("NumericField", {"PositionX": 65, "PositionY": 39, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxwidth), "DecimalAccuracy": 2, "HelpText": _("Width")})  # 上下ボタン付き数字枠。小数点2桁、floatに変換して値を代入。
-					# addControl("NumericField", {"PositionX": 65, "PositionY": 64, "Width": 60, "Height": 15, "Spin": True, "ValueMin": 0, "Value": float(maxheight), "DecimalAccuracy": 2, "HelpText": _("Height")})  # 同上。
-					# addControl("FixedText", {"PositionX": 11, "PositionY": 66, "Width": 49, "Height": 15, "Label": _("Height"), "NoLabel": True})  # 文字列。
-					# addControl("FixedText", {"PositionX": 127, "PositionY": 42, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
-					# addControl("FixedText", {"PositionX": 127, "PositionY": 68, "Width": 25, "Height": 15, "Label": "cm", "NoLabel": True})  # 文字列。
-					# addControl("Button", {"PositionX": 155, "PositionY": 39, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "width", "addActionListener": buttonlistener})  # ボタン。
-					# addControl("Button", {"PositionX": 155, "PositionY": 64, "Width": 50, "Height": 15, "Label": _("~Default")}, {"setActionCommand": "height", "addActionListener": buttonlistener})  # ボタン。
 				elif eventname=="ok":  # OKボタンが押された時
-					# maxwidth = dialog.getControl("NumericField1").getModel().Value  # NumericFieldコントロールから値を取得。
-					# maxheight = dialog.getControl("NumericField2").getModel().Value  # NumericFieldコントロールから値を取得。
 					if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
 						umode = "PrecomposedPUA"
 					elif dialog.getControl("CombiningOption").getModel().State == True:
@@ -93,10 +70,9 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 						dialog.getControl("PrecomposedOption").getModel().State = True
 						dialog.getControl("PrecomposedPUAOption").getModel().State = False
 						dialog.getControl("CombiningOption").getModel().State = False
-					# dialog.getControl("NumericField1").getModel().Value= float(maxwidth)  # コンポーネントデータノードの値を取得。
-					# dialog.getControl("NumericField2").getModel().Value= float(maxheight)  # コンポーネントデータノードの値を取得。
+
 			except:
-				traceback.print_exc()  # トレースバックはimport pydevd; pydevd.settrace(stdoutToServer=True, stderrToServer=True)でブレークして取得できるようになる。
+				#traceback.print_exc()  # トレースバックはimport pydevd; pydevd.settrace(stdoutToServer=True, stderrToServer=True)でブレークして取得できるようになる。
 				return False
 		return True
 	def getSupportedMethodNames(self):
@@ -108,57 +84,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 		return name == SERVICE_NAME
 	def getSupportedServiceNames(self):
 		return (SERVICE_NAME,)
-class ButtonListener(unohelper.Base, XActionListener):  # ボタンリスナー。
-	def __init__(self, dialog, defaults):
-		self.dialog = dialog
-		self.defaults = defaults
-	def actionPerformed(self, actionevent):
-		cmd = actionevent.ActionCommand
-		if cmd == "width":
-			self.dialog.getControl("NumericField1").Value = self.defaults[0]
-		elif cmd == "height":
-			self.dialog.getControl("NumericField2").Value = self.defaults[1]
-	def disposing(self,eventobject):
-		pass
-def controlCreator(ctx, smgr, dialog):  # コントロールを追加する関数を返す。
-	dialogmodel = dialog.getModel()  # ダイアログモデルを取得。
-	def addControl(controltype, props, attrs=None):  # props: コントロールモデルのプロパティ、attr: コントロールの属性。
-		if "PosSize" in props:  # コントロールモデルのプロパティの辞書にPosSizeキーがあるときはピクセル単位でコントロールに設定をする。
-			control = smgr.createInstanceWithContext("com.sun.star.awt.UnoControl{}".format(controltype), ctx)  # コントロールを生成。
-			control.setPosSize(props.pop("PositionX"), props.pop("PositionY"), props.pop("Width"), props.pop("Height"), props.pop("PosSize"))  # ピクセルで指定するために位置座標と大きさだけコントロールで設定。
-			controlmodel = _createControlModel(controltype, props)  # コントロールモデルの生成。
-			control.setModel(controlmodel)  # コントロールにコントロールモデルを設定。
-			dialog.addControl(props["Name"], control)  # コントロールをコントロールコンテナに追加。
-		else:  # Map AppFont (ma)のときはダイアログモデルにモデルを追加しないと正しくピクセルに変換されない。
-			controlmodel = _createControlModel(controltype, props)  # コントロールモデルの生成。
-			dialogmodel.insertByName(props["Name"], controlmodel)  # ダイアログモデルにモデルを追加するだけでコントロールも作成される。
-		if attrs is not None:  # Dialogに追加したあとでないと各コントロールへの属性は追加できない。
-			control = dialog.getControl(props["Name"])  # コントロールコンテナに追加された後のコントロールを取得。
-			for key, val in attrs.items():  # メソッドの引数がないときはvalをNoneにしている。
-				if val is None:
-					getattr(control, key)()
-				else:
-					getattr(control, key)(val)
-	def _createControlModel(controltype, props):  # コントロールモデルの生成。
-		if not "Name" in props:
-			props["Name"] = _generateSequentialName(controltype)  # Nameがpropsになければ通し番号名を生成。
-		controlmodel = dialogmodel.createInstance("com.sun.star.awt.UnoControl{}Model".format(controltype))  # コントロールモデルを生成。UnoControlDialogElementサービスのためにUnoControlDialogModelからの作成が必要。
-		if props:
-			values = props.values()  # プロパティの値がタプルの時にsetProperties()でエラーが出るのでその対応が必要。
-			if any(map(isinstance, values, [tuple]*len(values))):
-				[setattr(controlmodel, key, val) for key, val in props.items()]  # valはリストでもタプルでも対応可能。XMultiPropertySetのsetPropertyValues()では[]anyと判断されてタプルも使えない。
-			else:
-				controlmodel.setPropertyValues(tuple(props.keys()), tuple(values))
-		return controlmodel
-	def _generateSequentialName(controltype):  # 連番名の作成。
-		i = 1
-		flg = True
-		while flg:
-			name = "{}{}".format(controltype, i)
-			flg = dialog.getControl(name)  # 同名のコントロールの有無を判断。
-			i += 1
-		return name
-	return addControl  # コントロールコンテナとそのコントロールコンテナにコントロールを追加する関数を返す。
+
 def createConfigAccessor(ctx, smgr, rootpath):  # コンポーネントデータノードへのアクセス。
 	cp = smgr.createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider", ctx)
 	node = PropertyValue(Name="nodepath", Value=rootpath)
@@ -176,5 +102,6 @@ def createConfigAccessor(ctx, smgr, rootpath):  # コンポーネントデータ
 				root.setHierarchicalPropertyValue(names, values)
 			root.commitChanges()  # 変更値の書き込み。
 		except:
-			traceback.print_exc()
+			pass
+			#traceback.print_exc()
 	return readConfig, writeConfig
