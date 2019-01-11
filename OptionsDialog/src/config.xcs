@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <oor:component-schema
 	oor:name="ExtensionData"
-	oor:package="com.philolog.hoplitekb.LOExtension"
+	oor:package="com.philolog.hoplitekb"
 	xml:lang="en-US"
 	xmlns:oor="http://openoffice.org/2001/registry"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<templates>
-		<group oor:name="Sizes">
+		<group oor:name="HKBSettings">
 			<info>
 				<desc>width and height.</desc>
 			</info>
@@ -42,8 +42,8 @@
 	<component>
 		<group oor:name="Leaves">
 			<node-ref
-				oor:name="MaximumPaperSize"
-				oor:node-type="Sizes" />
+				oor:name="HKBSettingsNode"
+				oor:node-type="HKBSettings" />
 		</group>
 	</component>
 </oor:component-schema>

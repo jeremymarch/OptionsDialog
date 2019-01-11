@@ -14,14 +14,16 @@ def create(ctx, *args, imple_name, service_name):
 	IMPLE_NAME = imple_name
 	SERVICE_NAME = service_name
 	return DilaogHandler(ctx, *args)
+
 class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):  # UNOコンポーネントにするクラス。
 	METHODNAME = "external_event"  # 変更できない。
 	def __init__(self, ctx, *args):
 		self.ctx = ctx
 		self.smgr = ctx.getServiceManager()
-		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.LOExtension.ExtensionData/Leaves/MaximumPaperSize")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
+		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
 		self.cfgnames = "Width", "Height", "UnicodeMode"
 		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
+
 	# XContainerWindowEventHandler
 	def callHandlerMethod(self, dialog, eventname, methodname):  # ブーリアンを返す必要あり。dialogはUnoControlDialog。 eventnameは文字列initialize, ok, backのいずれか。methodnameは文字列external_event。
 		if methodname==self.METHODNAME:  # Falseのときがありうる?
@@ -51,8 +53,8 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 						umode = "CombiningOnly"
 					else:
 						umode = "Precomposed"
-
 					self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
+					
 				elif eventname=="back":  # 元に戻すボタンが押された時
 					maxwidth, maxheight, umode = self.readConfig(*self.cfgnames)
 					umode = umode or self.defaults[2]
@@ -75,8 +77,10 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 				#traceback.print_exc()  # トレースバックはimport pydevd; pydevd.settrace(stdoutToServer=True, stderrToServer=True)でブレークして取得できるようになる。
 				return False
 		return True
+
 	def getSupportedMethodNames(self):
 		return (self.METHODNAME,)  # これも決め打ち。
+
 	# XServiceInfo
 	def getImplementationName(self):
 		return IMPLE_NAME
@@ -84,6 +88,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 		return name == SERVICE_NAME
 	def getSupportedServiceNames(self):
 		return (SERVICE_NAME,)
+
 
 def createConfigAccessor(ctx, smgr, rootpath):  # コンポーネントデータノードへのアクセス。
 	cp = smgr.createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider", ctx)

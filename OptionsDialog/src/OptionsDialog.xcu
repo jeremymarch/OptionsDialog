@@ -9,7 +9,7 @@
 		<node oor:name="Writer" oor:op="fuse">
 			<node oor:name="Leaves">
 				<node
-					oor:name="com.philolog.hoplitekb.LOExtension"
+					oor:name="com.philolog.hoplitekb"
 					oor:op="fuse">
 					<prop oor:name="Label">
 						<value xml:lang="en-US">Hoplite Keyboard</value>
@@ -18,10 +18,10 @@
 						<value>%origin%/dialogs/optionsdialog.xdl</value>
 					</prop>
 					<prop oor:name="Id">
-						<value>com.philolog.hoplitekb.LOExtension</value>
+						<value>com.philolog.hoplitekb</value>
 					</prop>
 					<prop oor:name="EventHandlerService">
-						<value>com.philolog.hoplitekb.LOExtension</value>
+						<value>com.philolog.hoplitekb</value>
 					</prop>
 				</node>
 			</node>
@@ -33,7 +33,7 @@
 			oor:op="fuse">
 			<node oor:name="Nodes">
 				<node
-					oor:name="com.philolog.hoplitekb.LOExtension.Node1"
+					oor:name="com.philolog.hoplitekb.Node1"
 					oor:op="fuse" />
 			</node>
 		</node>

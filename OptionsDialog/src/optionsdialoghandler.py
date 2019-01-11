@@ -1,6 +1,6 @@
 #!/opt/libreoffice5.2/program/python
 # -*- coding: utf-8 -*-
-IMPLE_NAME = "com.philolog.hoplitekb.LOExtension"
+IMPLE_NAME = "com.philolog.hoplitekb"
 SERVICE_NAME = "com.philolog.hoplitekb.Settings"
 def create(ctx, *args):    
         from optionsdialog import component  # pythopathフォルダのモジュールの取得。

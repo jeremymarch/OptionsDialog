@@ -3,7 +3,7 @@
 	<component
 		loader="com.sun.star.loader.Python"
 		uri="optionsdialoghandler.py">
-		<implementation name="com.philolog.hoplitekb.LOExtension">
+		<implementation name="com.philolog.hoplitekb">
 			<service name="com.philolog.hoplitekb.Settings" />
 		</implementation>
 	</component>
